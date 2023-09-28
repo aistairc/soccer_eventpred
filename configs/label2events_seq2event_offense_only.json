@@ -1,0 +1,21 @@
+{
+    "Goal": [
+        "goal",
+        "own_goal"
+    ],
+    "Shot": [
+        "shot"
+    ],
+    "Cross": [
+        "cross"
+    ],
+    "Pass": [
+        "pass"
+    ],
+    "Dribble": [
+        "dribble"
+    ],
+    "Change of possession": [
+        "change_poss"
+    ]
+}
