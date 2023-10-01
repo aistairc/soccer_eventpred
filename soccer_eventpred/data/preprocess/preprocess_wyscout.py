@@ -12,6 +12,23 @@ import logging
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
+DEFENSIVE_COMB_EVENTS = [
+    "Duel_Air duel",
+    "Duel_Ground defending duel",
+    "Duel_Ground loose ball duel",
+    "Interruption_Ball out of the field",
+    "Interruption_Whistle",
+    "Foul_Foul",
+    "Foul_Hand foul",
+    "Foul_Late card foul",
+    "Foul_Out of game foul",
+    "Foul_Protest",
+    "Foul_Simulation",
+    "Foul_Time lost foul",
+    "Foul_Violent Foul",
+    "Offside_",
+]
+
 
 def preprocess_wyscout_teams_data(
     input_path: Path | str = DATA_DIR / "wyscout/raw/mappings/teams.json",
@@ -65,8 +82,10 @@ def preprocess_wyscout_events_data(
     targets: List[str] = ["events_Spain.json"],
     offense_only: bool = True,
 ) -> None:
-    output_dir = Path(output_dir)
-    mappings_dir = Path(mappings_dir)
+    output_dir = Path(output_dir).resolve()
+    mappings_dir = Path(mappings_dir).resolve()
+    output_dir.mkdir(parents=True, exist_ok=True)
+
     df = load_wyscout_data(input_dir, targets)
     df.rename(columns={"teamId": "wyscout_team_id"}, inplace=True)
 
@@ -140,15 +159,10 @@ def preprocess_wyscout_events_data(
         ["start_pos_x", "start_pos_y", "end_pos_x", "end_pos_y"]
     ].astype(int)
 
-    def _deal_with_invalid_value(row):
-        for col in ["start_pos_x", "start_pos_y", "end_pos_x", "end_pos_y"]:
-            if row[col] > 100:
-                row[col] = 100
-            elif row[col] < 0:
-                row[col] = 0
-        return row
-
-    df = df.apply(_deal_with_invalid_value, axis=1)
+    # clip positions
+    df[["start_pos_x", "start_pos_y", "end_pos_x", "end_pos_y"]] = df[
+        ["start_pos_x", "start_pos_y", "end_pos_x", "end_pos_y"]
+    ].clip(0, 100)
     assert (
         (0 > df[["start_pos_x", "start_pos_y", "end_pos_x", "end_pos_y"]])
         | (df[["start_pos_x", "start_pos_y", "end_pos_x", "end_pos_y"]] > 100)
@@ -370,6 +384,7 @@ def load_wyscout_data(
     for path in data_paths:
         if path.name not in targets:
             continue
+        logger.info(f"Loading {path.name} ...")
         df = pd.read_json(path)
         competition_name = "_".join(path.stem.split("_")[1:])
         df.insert(0, "competition", competition_name)
