@@ -36,26 +36,26 @@ A large part of the event preprocessing code is borrowed from [seq2Event](https:
 ```
 poetry run python scripts/preprocess_data.py teams \
     --input_path data/wyscout_offense_only/raw/mappings/teams.json \
-    --output_path data/wyscout_offense_only/processed/mappings/id2team.json
+    --output_path data/wyscout_offense_only/preprocessed/mappings/id2team.json
 
 poetry run python scripts/preprocess_data.py players \
     --input_path data/wyscout_offense_only/raw/mappings/players.json \
-    --output_path data/wyscout_offense_only/processed/mappings/id2player.json
+    --output_path data/wyscout_offense_only/preprocessed/mappings/id2player.json
 
 poetry run python scripts/preprocess_data.py tags \
     --input_path data/wyscout_offense_only/raw/mappings/tags2name.csv \
-    --output_path data/wyscout_offense_only/processed/mappings/tagid2name.json
+    --output_path data/wyscout_offense_only/preprocessed/mappings/tagid2name.json
 
 poetry run python scripts/preprocess_data.py events \
-    --input_path data/wyscout_offense_only/raw/events \
-    --output_dir data/wyscout_offense_only/processed/events \
-    --mappings_dir data/wyscout_offense_only/processed/mappings \
+    --input_dir data/wyscout_offense_only/raw/events \
+    --output_dir data/wyscout_offense_only/preprocessed/events \
+    --mappings_dir data/wyscout_offense_only/preprocessed/mappings \
     --targets "events_Spain.json" \
     --offense_only true
 
 poetry run python scripts/preprocess_data.py split \
-    --df_pickle_path data/wyscout_offense_only/processed/events/all_preprocessed.pkl \
-    --output_dir data/wyscout_offense_only/processed/events \
+    --df_pickle_path data/wyscout_offense_only/preprocessed/events/all_preprocessed.pkl \
+    --output_dir data/wyscout_offense_only/preprocessed/events \
     --random_state 42
 ```
 
