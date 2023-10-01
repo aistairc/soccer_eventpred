@@ -156,3 +156,4 @@ cython_debug/
 mlruns/
 outputs/
 data/
+!soccer_eventpred/data
