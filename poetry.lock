@@ -1414,6 +1414,16 @@ files = [
 attrs = ">=19.2.0"
 
 [[package]]
+name = "jsonnet"
+version = "0.20.0"
+description = "Python bindings for Jsonnet - The data templating language"
+optional = false
+python-versions = "*"
+files = [
+    {file = "jsonnet-0.20.0.tar.gz", hash = "sha256:7e770c7bf3a366b97b650a39430450f77612e74406731eb75c5bd59f3f104d4f"},
+]
+
+[[package]]
 name = "kiwisolver"
 version = "1.4.5"
 description = "A fast implementation of the Cassowary constraint solver"
@@ -3354,4 +3364,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<3.13"
-content-hash = "f91139cdef59de71e4db94f33bb9ac853ee7a0b9798374757c61fdd825c06393"
+content-hash = "28626ded21e1c5b1416df7923935183888f973a22f37c4973cff5734c5a80b05"
